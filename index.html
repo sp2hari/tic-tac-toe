@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>HTML5 boilerplate – all you really need…</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript" src="index.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      
+      var move = 1;
+      var turn = true;
+
+      $("#dashboard tr td").click(function() {
+        if ($(this).text()=="-" && turn) {
+          if ((move%2)==1) { $(this).text("X"); } 
+          move++;
+
+          $("#statusmessage").html("Thinking...");
+          turn = false;
+          setTimeout(function(){
+
+
+            var ai_move = get_next_move(getBoard());
+            //Stupid hack. Simple way to pass two single digit numbers. Make it a two digit number :(. Yuck!
+            var ai_move_x = parseInt(ai_move/10)+1;
+            var ai_move_y = parseInt(ai_move%10)+1;
+
+            $("#dashboard tr:nth-child("+ai_move_x+") td:nth-child("+ai_move_y+")").text("O")
+            move++;
+
+            if (is_game_over(getBoard())) {
+              var score = get_score(getBoard());
+              if (score == 10) { $("#statusmessage").html("You win!"); }
+              else if (score == -10) { $("#statusmessage").html("You lose!"); }
+              else if (score == 0) { $("#statusmessage").html("Draw!"); }
+              turn = false; 
+            }
+            else {
+              $("#statusmessage").html("Your move now!");
+              turn = true;
+            }        
+
+          }, 1000);
+
+
+        } 
+      });
+
+      function getBoard() {
+        var board = [];
+        for (var i=1; i<=3; i++) {
+          for (var j=1; j<=3; j++) {
+            board.push($("#dashboard tr:nth-child("+i+") td:nth-child("+j+")").text())
+          }
+        }
+        return board;
+      }
+    });
+  </script>
+
+</head>
+
+<body id="home" style="height:80%;">
+  <h1 class="header"></h1>
+    <table id="dashboard" class="pure-table pure-table-bordered" style="height:100%;">
+      <caption><h1>Tic Tac Toe</h1></caption>
+      <tr class="row">
+        <td id="c00" class="cell">-</td>
+        <td id="c01" class="cell">-</td>
+        <td id="c02" class="cell">-</td>
+      </tr>
+      <tr class="row">
+        <td id="c10" class="cell">-</td>
+        <td id="c11" class="cell">-</td>
+        <td id="c12" class="cell">-</td>
+      </tr>
+      <tr class="row">
+        <td id="c20" class="cell">-</td>
+        <td id="c21" class="cell">-</td>
+        <td id="c22" class="cell">-</td>
+      </tr>
+      <caption><h3 id="statusmessage">Your move now!</h3></caption>
+    </table>
+</body>
+</html>

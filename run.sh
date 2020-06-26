@@ -1,0 +1,1 @@
+em++ -std=c++17 --pre-js ./pre.js --post-js ./post.js -pedantic -flto=thin --emrun -o index.js main.cpp -s WASM=1 -s NO_EXIT_RUNTIME=1 -s ERROR_ON_UNDEFINED_SYMBOLS=1 -s EXPORTED_FUNCTIONS='["_main", "_get_next_move", "_is_game_over", "_get_score"]' -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap", "ccall"]'
