@@ -16,7 +16,7 @@
 
       $("#dashboard tr td").click(function() {
         if ($(this).text()=="-" && turn) {
-          if ((move%2)==1) { $(this).text("X"); } 
+          if ((move%2)==1) { $(this).text("X").css("cursor", "not-allowed"); } 
           move++;
 
           $("#statusmessage").html("Thinking...");
@@ -29,7 +29,7 @@
             var ai_move_x = parseInt(ai_move/10)+1;
             var ai_move_y = parseInt(ai_move%10)+1;
 
-            $("#dashboard tr:nth-child("+ai_move_x+") td:nth-child("+ai_move_y+")").text("O")
+            $("#dashboard tr:nth-child("+ai_move_x+") td:nth-child("+ai_move_y+")").text("O").css("cursor", "not-allowed");
             move++;
 
             if (is_game_over(getBoard())) {
